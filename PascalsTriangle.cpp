@@ -22,26 +22,6 @@ int inputLoop() {
 }
 
 
-/* THIS IS A WORKING IMPLEMENTATION WHICH OUTPUTS A SINGLE ROW
-int *buildTri(int inRow) {
-	int *currentRow = new int[inRow];
-	int n = inRow - 1;
-	currentRow[0] = 1;
-
-	for(int k = 0; k < n; k += 1) {
-		currentRow[k + 1] = (currentRow[k]*(n - k))/(k + 1);
-	}
-
-	for(int i = 0; i < inRow; i += 1) {
-		Serial.print(currentRow[i]);
-		Serial.print(" ");
-	}
-
-	Serial.println();
-}
-*/
-
-
 int *buildTri(int inRow) {
 	int *currentRow = new int[inRow];
 	for(int i = 0; i < inRow; i += 1) {
@@ -57,9 +37,19 @@ int *buildTri(int inRow) {
 			currentRow[k + 1] = (currentRow[k]*(n - k))/(k + 1);
 		}
 
-		for(int i = 0; i < inRow; i += 1) {
-			Serial.print(currentRow[i]);
+		for(int i = 0; i <  ((inRow - 1) - n); i += 1) {
 			Serial.print(" ");
+		}
+
+		for(int i = 0; i < inRow; i += 1) {
+			if(currentRow[i] != 0) {
+				Serial.print(currentRow[i]);
+				Serial.print(" ");
+			}
+
+			else {
+				break;
+			}
 		}
 
 		Serial.println();
