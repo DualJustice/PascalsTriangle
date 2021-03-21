@@ -3,11 +3,11 @@
 
 
 int inputLoop() {
-	int userInput = 0;
+	String userInput;
 
 	while(true) {
 		if(Serial.available() > 0) {
-			userInput = Serial.parseInt();
+			userInput = Serial.readStringUntil('\n');
 			Serial.print("You input: ");
 			Serial.println(userInput);
 			break;
@@ -18,39 +18,70 @@ int inputLoop() {
 		}
 	}
 
-	return userInput;
+	return userInput.toInt();
 }
 
 
-int *buildTri(int row) {
-	int *currentRow = new int[row];
+/* THIS IS A WORKING IMPLEMENTATION WHICH OUTPUTS A SINGLE ROW
+int *buildTri(int inRow) {
+	int *currentRow = new int[inRow];
+	int n = inRow - 1;
 	currentRow[0] = 1;
 
-	for(int i = 1; i < row; i += 1) {
-		currentRow[i] = currentRow[i - 1]*((row - i)/i);
+	for(int k = 0; k < n; k += 1) {
+		currentRow[k + 1] = (currentRow[k]*(n - k))/(k + 1);
 	}
 
-	for(int i = 0; i < row; i += 1) {
+	for(int i = 0; i < inRow; i += 1) {
 		Serial.print(currentRow[i]);
 		Serial.print(" ");
 	}
 
 	Serial.println();
 }
+*/
+
+
+int *buildTri(int inRow) {
+	int *currentRow = new int[inRow];
+	for(int i = 0; i < inRow; i += 1) {
+		currentRow[i] = 0;
+	}
+
+	int n = 0;
+
+	while(n < inRow) {
+		currentRow[0] = 1;
+
+		for(int k = 0; k < n; k += 1) {
+			currentRow[k + 1] = (currentRow[k]*(n - k))/(k + 1);
+		}
+
+		for(int i = 0; i < inRow; i += 1) {
+			Serial.print(currentRow[i]);
+			Serial.print(" ");
+		}
+
+		Serial.println();
+		n += 1;
+	}
+}
 
 
 void askRow() {
-	Serial.println("Input the row you would like to calculate to.");
+	Serial.println("Input the number of rows you'd like to calculate.");
+
+	int inRow = 0;
 
 	while(true) {
-		int row = inputLoop();
+		inRow = inputLoop();
 
-		if(row < 1) {
+		if(inRow < 1) {
 			Serial.println("Make sure you input a valid row number.");
 		}
 
 		else {
-			buildTri(row);
+			buildTri(inRow);
 			break;
 		}
 	}
@@ -62,11 +93,9 @@ void setup() {
 	while(!Serial) {
 		delay(250);
 	}
-
-	askRow();
 }
 
 
 void loop() {
-
+	askRow();
 }
