@@ -45,9 +45,7 @@ int *buildTri(int inRow) {
 			if(currentRow[i] != 0) {
 				Serial.print(currentRow[i]);
 				Serial.print(" ");
-			}
-
-			else {
+			} else {
 				break;
 			}
 		}
@@ -55,6 +53,8 @@ int *buildTri(int inRow) {
 		Serial.println();
 		n += 1;
 	}
+
+	delete[] currentRow;
 }
 
 
